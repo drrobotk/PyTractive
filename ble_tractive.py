@@ -7,7 +7,6 @@ from colorama import Style
 
 __author__ = ['Dr. Usman Kayani']
 
-
 def io_req(
 	handle: str, 
 	code: Optional[str] = None,
