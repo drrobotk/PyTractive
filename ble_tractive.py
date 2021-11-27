@@ -16,7 +16,6 @@ def io_req(
 	else:
 		return f'char-read-uuid {handle}'
 		
-
 if __name__ == '__main__':
 
 	# parser = argparse.ArgumentParser(add_help=False)
@@ -40,7 +39,6 @@ if __name__ == '__main__':
 		except:
 			pass
 
-
 	command = io_req('00002a19-0000-1000-8000-00805f9b34fb')
 	gatt.sendline(command)
 	gatt.expect('handle: ', timeout=10)
@@ -53,7 +51,6 @@ if __name__ == '__main__':
 	gatt.expect('\r\n', timeout=10)
 	handle = gatt.before[0:6]
 	
-
 	flag = True
 	if len(sys.argv) > 2:
 		while flag:
@@ -79,4 +76,3 @@ if __name__ == '__main__':
 
 	gatt.sendline('disconnect')
 	gatt.sendline('exit')
-
