@@ -3,7 +3,6 @@ Main script for Tractive GPS tracker.
 
 Options can be accessed via switches in the commandline argument e.g: `python main.py --help`.
 """
-
 import sys, webbrowser, time, requests, argparse, folium
 from PIL import Image
 from geopy.distance import geodesic

@@ -1,6 +1,9 @@
+"""
+Experimental script to access the Tractive GPS tracker via bluetooth (ble) to display the battery level and turn the light or buzzer on or off.
+"""
 from typing import Optional
 import pexpect, sys, argparse
-from colorama import Fore, Back, Style 
+from colorama import Style 
 
 __author__ = ['Dr. Usman Kayani']
 
