@@ -35,6 +35,15 @@ optional arguments:
 --export                Export GPS data to file `gps_data.csv`.
 ```
 
+### Directory layout:
+    .
+    ├── main.py                    # Main script              
+    ├── tractive.py                # Class and functions for Tractive
+    ├── ble_tractive.py            # Bluetooth low energy control (experimental)  
+    ├── requirements.txt           # Python library requirements
+    ├── login.conf                 # File to store login credentials and home GPS location
+    └── README.md                  # This README file.
+                    
 ## What is Tractive GPS?
 
 ![tractive_logo](https://camo.githubusercontent.com/6dbfd1a54584066a2b629f438f1a9a83738a62d8810c190f415134e5ca80e928/68747470733a2f2f7777772e636f75706f6e736b6973732e636f6d2f77702d636f6e74656e742f75706c6f6164732f323031392f30342f54726163746976652d4c6f676f2d323030783230302e706e67)

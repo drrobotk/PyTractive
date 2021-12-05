@@ -56,7 +56,7 @@ if __name__ == '__main__':
 		while flag:
 			if sys.argv[2] == 'cmd':
 				print('cmd: ')
-				cdl = raw_input()
+				cdl = input()
 			else:
 				cdl = sys.argv[2] + ' ' + sys.argv[3]
 				flag = False
