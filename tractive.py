@@ -59,11 +59,18 @@ class Tractive(object):
             hw_report_dict
         )
 
-        return (
-            device_data_dict['battery_level'], device_data_dict['hw_status'], 
-            device_data_dict['time'], device_data_dict['temperature_state'], 
-            device_data_dict['state'], device_data_dict['battery_save_mode']
-        )
+        try:
+            return (
+                device_data_dict['battery_level'], device_data_dict['hw_status'], 
+                device_data_dict['time'], device_data_dict['temperature_state'], 
+                device_data_dict['state'], device_data_dict['battery_save_mode']
+            )
+        except KeyError:
+            return (
+                device_data_dict['battery_level'], device_data_dict['hw_status'], 
+                device_data_dict['time'], 'NA', 
+                device_data_dict['state'], device_data_dict['battery_save_mode']
+            )
 
     def get_GPS(self) -> tuple:
         """get GPS data using method 1."""
