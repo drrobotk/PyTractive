@@ -169,7 +169,7 @@ def new_location(switch) -> None:
         GPSt2 = Pet.get_GPS()[1]
 
     # Turn off live tracking.
-    time.sleep(4)
+    time.sleep(6)
     Pet.command('live_tracking', 'off')
 
     # Display latest gps data.
