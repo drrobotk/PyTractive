@@ -3,7 +3,7 @@ Main script for Tractive GPS tracker.
 
 Options can be accessed via switches in the commandline argument e.g: `python main.py --help`.
 """
-import sys, webbrowser, time, requests, argparse, folium
+import sys, webbrowser, time, requests, argparse, folium, os, platform
 from PIL import Image
 from geopy.distance import geodesic
 from geopy.geocoders import Nominatim
@@ -74,7 +74,16 @@ def gps(switch) -> None:
         points = (latlong, Pet.home)
         folium.PolyLine(points, color="darkred", weight=6, opacity=5, popup=f'{distance_home}m').add_to(folium_map)
         folium_map.save('map.html')
-        webbrowser.open_new('map.html')
+
+        is_mac = 'mac' in platform.platform()
+
+        if is_mac:
+            path = os.path.abspath(os.getcwd())
+            file_location = f'file:///{path}/map.html'
+        else:
+            file_location = 'map.html'
+        webbrowser.open_new(file_location)
+        
     print('------------------------------------------------------------------------------------------------------------------------')
 
 def pet(switch) -> None:
