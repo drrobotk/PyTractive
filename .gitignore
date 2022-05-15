@@ -1,3 +1,4 @@
 *.csv
+*.conf
 PyTractive/map.html
 PyTractive/login.conf
