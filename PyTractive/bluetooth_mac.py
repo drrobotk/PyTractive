@@ -46,5 +46,9 @@ if __name__ == "__main__":
         required=True
     )
     args = argparse.parse_args()
+    if args.sensor not in ('light', 'sound'):
+        raise ValueError('Sensor must be either light or sound.')
+    if args.switch not in ('on', 'off'):
+        raise ValueError('Switch must be either on or off.')
     args_dict = {'address': address, 'sensor': args.sensor, 'switch': args.switch}
     connect(args_dict)
