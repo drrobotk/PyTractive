@@ -1,5 +1,5 @@
 
-import asyncio, argparse
+import asyncio, argparse 
 from bleak import BleakClient
 
 address = "2C34464E-9C38-279D-923C-E60D5EBBC3E8"
@@ -28,11 +28,17 @@ def connect(args):
             print('.', end = '', flush=True)
             asyncio.run(main(**args))
             stop = True
+        except KeyboardInterrupt:
+            print('\nExiting.')
+            stop = True
+            exit()
         except: 
             pass
 
 if __name__ == "__main__":
+
     argparse = argparse.ArgumentParser()
+
     argparse.add_argument(
         '-sensor',
         help='Sensor (options: light, sound).',
@@ -46,9 +52,12 @@ if __name__ == "__main__":
         required=True
     )
     args = argparse.parse_args()
+
     if args.sensor not in ('light', 'sound'):
         raise ValueError('Sensor must be either light or sound.')
     if args.switch not in ('on', 'off'):
         raise ValueError('Switch must be either on or off.')
+
     args_dict = {'address': address, 'sensor': args.sensor, 'switch': args.switch}
+
     connect(args_dict)
