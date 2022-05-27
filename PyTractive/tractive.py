@@ -54,10 +54,10 @@ class Tractive(object):
         if partial:
             return hw_report_dict['battery_level'], hw_report_dict['time']
 
-        device_data_dict = _merge_dict(
-            _request_data(tracker_data_url, self.access_token), 
-            hw_report_dict
-        )
+        device_data_dict = {
+            **_request_data(tracker_data_url, self.access_token), 
+            **hw_report_dict
+        }
 
         try:
             return (
@@ -257,7 +257,7 @@ class Tractive(object):
         if create_flag:
             self.deactivate_share_id(share_id)
 
-        pet_data_dict = _merge_dict(pet_data_dict, breed_data)
+        pet_data_dict.update(breed_data)
                 
         return (
             pet_data_dict['details']['name'], pet_data_dict['details']['pet_type'], 
@@ -280,7 +280,6 @@ def _read_creds(
         creds_dict['email'], creds_dict['password'], 
         (creds_dict['lat'], creds_dict['long'])
     )
-    
 
 def _request_data(
     url: str,
@@ -291,7 +290,7 @@ def _request_data(
     """Request (put, post, or get) data with headers for tractive client."""
     headers = {'X-Tractive-Client' : '5728aa1fc9077f7c32000186'}
     if access_token:
-        headers = _merge_dict(headers, {'Authorization' : 'Bearer ' + access_token})
+        headers.update({'Authorization': f'Bearer {access_token}'})
 
     if put:
         requests.put(url, headers=headers)
@@ -303,10 +302,3 @@ def _request_data(
         response = requests.get(url, headers=headers)
 
     return json.loads(response.text)
-
-def _merge_dict(
-    dict1: Dict,
-    dict2: Dict
-) -> Dict:
-    """Merge two dictionarys."""
-    return {**dict1, **dict2}
