@@ -18,7 +18,7 @@ The following environment variables should be set.
 | --- | --- | --- 
 | `tractive_username` | name@host.com | Tractive username  |
 | `tractive_password` | encoded_password | Tractive password encoded in base64 (ascii)  |
-| `latlong` | ('lattitude', 'longnitude') | The latlong of the home GPS location.  |
+| `latlong` | (str(lattitude), str(longnitude)) | The latlong of the home GPS location.  |
 
 ```
 usage: main.py [-h] [--live state] [--led state] [--buzzer state] [--battery_saver state] [--public state] 
