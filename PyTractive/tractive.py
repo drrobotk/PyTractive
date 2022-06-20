@@ -14,11 +14,32 @@ import pandas as pd
 __author__ = ['Dr. Usman Kayani']
 
 def IFTTT_trigger(action: str, key: str) -> None:
-    """Trigger action via IFTTT."""
+    """
+    Trigger action via IFTTT.
+    
+    Args:
+        action: str
+            The action to trigger.
+        key: str
+            The IFTTT key.
+
+    Returns:
+        None
+    """
     requests.post(f'https://maker.ifttt.com/trigger/{action}/with/key/{key}')
 
 class Tractive(object):
     def __init__(self, filename: str = 'login.conf') -> None:
+        """
+        Initialize Tractive object.
+
+        Args:
+            filename: str
+                The filename of the login configuration file.
+        
+        Returns:
+            None
+        """
         self.main_url = 'https://graph.tractive.com/3'
         self.email, self.password, self.home = _read_creds(filename)
         self.access_token, self.user_id = self._get_creds()
@@ -46,7 +67,16 @@ class Tractive(object):
         return tracker_dict[0]['_id']
     
     def get_device_data(self, partial: bool = False) -> tuple:
-        """Get device data from access_token and tracker_id."""
+        """
+        Get device data from access_token and tracker_id.
+        
+        Args:
+            partial: bool
+                If True, return only the last entry.
+        
+        Returns:
+            tuple
+        """
         hw_report_url = f'{self.main_url}/device_hw_report/{self.tracker_id}'
         tracker_data_url = f'{self.main_url}/tracker/{self.tracker_id}'
 
@@ -126,7 +156,20 @@ class Tractive(object):
         filename_csv: Optional[str] = 'gps_data.csv',
         convert_timestamp: Optional[bool] = False,
     ) -> pd.DataFrame:
-        """Export all gps data to csv."""
+        """
+        Export all gps data to csv.
+        
+        Args:
+            export: bool
+                If True, export data to csv.
+            filename_csv: str
+                The filename of the csv file.
+            convert_timestamp: bool
+                If True, convert timestamp to datetime.
+
+        Returns:
+            pd.DataFrame
+        """
         total_data = []
         start = int(time.time())
 
@@ -164,7 +207,18 @@ class Tractive(object):
         return df
         
     def command(self, command, state) -> None:
-        """Execute command on tracker and turn on/off sensors."""
+        """
+        Execute command on tracker and turn on/off sensors.
+        
+        Args:
+            command: str
+                The command to execute.
+            state: str
+                The state of the command.
+        
+        Returns:
+            None
+        """
         if state not in ('on', 'off'):
             raise ValueError('Incorrect state, please provide `on` or `off`.')
         if command not in (
@@ -198,7 +252,16 @@ class Tractive(object):
             return 0
             
     def generate_share_id(self, message: str) -> str:
-        """Generate share id for public url."""
+        """
+        Generate share id for public url.
+        
+        Args:
+            message: str
+                The message to share.
+        
+        Returns:
+            str
+        """
         share_id_dict = _request_data(
             f'{self.main_url}/public_share',
             self.access_token,
@@ -215,7 +278,16 @@ class Tractive(object):
         ) 
 
     def public_share_link(self, share_id: str) -> tuple:
-        """Obtain public share link and information."""
+        """
+        Obtain public share link and information.
+        
+        Args:
+            share_id: str
+                The share id.
+        
+        Returns:
+            tuple
+        """
         public_share_dict = _request_data(
             f'{self.main_url}/public_share/{share_id}',
             self.access_token
@@ -227,7 +299,15 @@ class Tractive(object):
         )
         
     def get_pet_data(self, date_only: bool = False) -> tuple:
-        """Get pet data from tractive."""
+        """
+        Get pet data from tractive.
+        
+        Args:
+            date_only: bool
+
+        Returns:
+            tuple
+        """
         pet_id = _request_data(
             f'{self.main_url}/user/{self.user_id}/trackable_objects', 
             self.access_token
@@ -270,7 +350,16 @@ class Tractive(object):
 def _read_creds(
     filename: str
 ) -> tuple:
-    """Read credentials and home latlong from login.conf file."""
+    """
+    Read credentials and home latlong from login.conf file.
+    
+    Args:
+        filename: str
+            The name of the file containing the credentials.
+    
+    Returns:
+        tuple
+    """
     creds_dict = {}
     with open(filename) as f:
         for line in f:
@@ -287,7 +376,22 @@ def _request_data(
     data: Optional[Dict] = None,
     put: Optional[bool] = False, 
 ) -> Dict:
-    """Request (put, post, or get) data with headers for tractive client."""
+    """
+    Request (put, post, or get) data with headers for tractive client.
+    
+    Args:
+        url: str
+            The url to request.
+        access_token: str
+            The access token.
+        data: dict
+            The data to send.
+        put: bool
+            Whether to use put or post.
+    
+    Returns:
+        dict
+    """
     headers = {'X-Tractive-Client' : '5728aa1fc9077f7c32000186'}
     if access_token:
         headers.update({'Authorization': f'Bearer {access_token}'})
