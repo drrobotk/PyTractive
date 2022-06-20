@@ -6,7 +6,7 @@ Provides the methods:
 * :func: `IFTTT_trigger`
 * :class: `Tractive`
 """
-import requests, json, time
+import requests, json, time, winreg, base64
 from typing import Optional, Dict, Union
 from pathlib import Path
 import pandas as pd
@@ -41,7 +41,9 @@ class Tractive(object):
             None
         """
         self.main_url = 'https://graph.tractive.com/3'
-        self.email, self.password, self.home = _read_creds(filename)
+        self.email = user_environ('tractive_username')
+        self.password = decode_password(user_environ('tractive_password'))
+        self.latlong = eval(user_environ('latlong'))
         self.access_token, self.user_id = self._get_creds()
         self.tracker_id = self._tracker_id()
         
@@ -347,28 +349,34 @@ class Tractive(object):
             pet_data_dict['details']['profile_picture_id'], pet_data_dict['breed_names'][0]
         )
 
-def _read_creds(
-    filename: str
-) -> tuple:
+def user_environ(key: str) -> str:
     """
-    Read credentials and home latlong from login.conf file.
-    
+    Get the value of a user environment variable.
     Args:
-        filename: str
-            The name of the file containing the credentials.
-    
+        key: str
+            The name of the environment variable.
     Returns:
-        tuple
+        str
+            The value of the environment variable.
     """
-    creds_dict = {}
-    with open(filename) as f:
-        for line in f:
-            (key, val) = line.split()
-            creds_dict[key] = val
-    return (
-        creds_dict['email'], creds_dict['password'], 
-        (creds_dict['lat'], creds_dict['long'])
-    )
+    reg_key = winreg.OpenKey(winreg.HKEY_CURRENT_USER, 'Environment')
+    return winreg.QueryValueEx(reg_key, key)[0]
+
+
+def decode_password(base64_string: str) -> str:
+    """
+    Decode a base64 encoded string.
+    Args:
+        base64_string: str
+            The base64 encoded string.
+        
+    Returns:
+        str
+            The decoded string.
+    """
+    base64_bytes = base64_string.encode("ascii")
+    sample_string_bytes = base64.b64decode(base64_bytes)
+    return sample_string_bytes.decode("ascii")
 
 def _request_data(
     url: str,
