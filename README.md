@@ -10,6 +10,16 @@ Python module and script to interact with the Tractive GPS tracker.
 * [pandas](https://pypi.org/project/pandas/)
 * [pillow](https://pypi.org/project/Pillow/) 
 
+### Environment Variables
+
+The following environment variables should be set.
+
+| Key | Value | Notes |
+| --- | --- | --- 
+| `tractive_username` | name@host.com | Tractive username  |
+| `tractive_password` | encoded_password | Tractive password encoded in base64 (ascii)  |
+| `latlong` | ('lattitude', 'longnitude') | The latlong of the home GPS location.  |
+
 ```
 usage: main.py [-h] [--live state] [--led state] [--buzzer state] [--battery_saver state] [--public state] 
  [--trigger radius] [--gps [-I]] [--nloc [-I]] [--pet [-I]] [--export] 
