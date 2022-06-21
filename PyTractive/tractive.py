@@ -41,9 +41,17 @@ class Tractive(object):
             None
         """
         self.main_url = 'https://graph.tractive.com/3'
-        self.email = user_environ('tractive_username')
-        self.password = decode_password(user_environ('tractive_password'))
-        self.latlong = eval(user_environ('latlong'))
+        is_environ = (
+            user_environ('tractive_username') and
+            user_environ('tractive_password')
+        )
+
+        if not is_environ:
+            self.email, self.password, self.home = _read_creds(filename)
+        else:
+            self.email = user_environ('tractive_username')
+            self.password = decode_password(user_environ('tractive_password'))
+            self.latlong = eval(user_environ('latlong'))
         self.access_token, self.user_id = self._get_creds()
         self.tracker_id = self._tracker_id()
         
@@ -360,8 +368,24 @@ def user_environ(key: str) -> str:
             The value of the environment variable.
     """
     reg_key = winreg.OpenKey(winreg.HKEY_CURRENT_USER, 'Environment')
-    return winreg.QueryValueEx(reg_key, key)[0]
+    try:
+        return winreg.QueryValueEx(reg_key, key)[0]
+    except:
+        return False
 
+def _read_creds(
+    filename: str
+) -> tuple:
+    """Read credentials and home latlong from login.conf file."""
+    creds_dict = {}
+    with open(filename) as f:
+        for line in f:
+            (key, val) = line.split()
+            creds_dict[key] = val
+    return (
+        creds_dict['email'], creds_dict['password'], 
+        (creds_dict['lat'], creds_dict['long'])
+    )
 
 def decode_password(base64_string: str) -> str:
     """
