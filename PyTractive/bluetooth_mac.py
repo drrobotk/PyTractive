@@ -1,9 +1,11 @@
 
-import asyncio, argparse 
+import asyncio, argparse
+from re import M 
 from bleak import BleakClient
 
 address = "2C34464E-9C38-279D-923C-E60D5EBBC3E8"
-char = "c1670003-2c5d-42fd-be9b-1f2dd6681818"
+battery_char = '00002a19-0000-1000-8000-00805f9b34fb'
+sensor_char = "c1670003-2c5d-42fd-be9b-1f2dd6681818"
 sensor_cmds = {
     'sound': {'on': '0b0019022001040102010101e0', 'off': '0b001902010000000000000001'}, 
     'light': {'on': '0b00080280000000000000004b', 'off': '0b000802010000000000000001'}
@@ -13,12 +15,12 @@ async def main(address, sensor, switch):
     chars = sensor_cmds.get(sensor)
     async with BleakClient(address) as client:
         print('Connected to:', address)
-        battery_byte = await client.read_gatt_char('00002a19-0000-1000-8000-00805f9b34fb')
+        battery_byte = await client.read_gatt_char(battery_char)
         battery_level = int.from_bytes(battery_byte, byteorder='big', signed=False)
         print(f"Battery level: {battery_level}%")
         cmd = bytes.fromhex(chars.get(switch))
         for _ in range(10000):
-            await client.write_gatt_char(char, cmd)
+            await client.write_gatt_char(sensor_char, cmd)
 
 def connect(args):
     stop = False
