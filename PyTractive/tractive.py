@@ -6,7 +6,11 @@ Provides the methods:
 * :func: `IFTTT_trigger`
 * :class: `Tractive`
 """
-import requests, json, time, winreg, base64
+import requests, json, time, base64, platform
+
+if platform.system() == 'Windows':
+    import winreg
+
 from typing import Optional, Dict, Union
 from pathlib import Path
 import pandas as pd
@@ -367,8 +371,8 @@ def user_environ(key: str) -> str:
         str
             The value of the environment variable.
     """
-    reg_key = winreg.OpenKey(winreg.HKEY_CURRENT_USER, 'Environment')
     try:
+        reg_key = winreg.OpenKey(winreg.HKEY_CURRENT_USER, 'Environment')
         return winreg.QueryValueEx(reg_key, key)[0]
     except:
         return False
