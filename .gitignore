@@ -2,3 +2,4 @@
 *.conf
 PyTractive/map.html
 PyTractive/login.conf
+PyTractive/__pycache__
