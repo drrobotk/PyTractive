@@ -24,7 +24,7 @@ def user_environ(key: str) -> str:
     try:
         reg_key = winreg.OpenKey(winreg.HKEY_CURRENT_USER, 'Environment')
         return winreg.QueryValueEx(reg_key, key)[0]
-    except FileNotFoundError:
+    except:
         return False
 
 def add_user_environment(
