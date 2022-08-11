@@ -407,7 +407,7 @@ def _request_data(
     Returns:
         dict
     """
-    if 'Authoriziation' not in session.headers and access_token:
+    if 'Authorization' not in session.headers and access_token:
         session.headers.update({'Authorization': f'Bearer {access_token}'})
 
     if put:
