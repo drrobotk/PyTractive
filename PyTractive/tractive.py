@@ -6,7 +6,7 @@ Provides the methods:
 * :func: `IFTTT_trigger`
 * :class: `Tractive`
 """
-import requests, json, time, base64, platform
+import requests, json, time, platform
 from typing import Optional, Dict, Union
 from pathlib import Path
 
@@ -16,6 +16,13 @@ from user_env import user_environ
 from encryption import get_creds, initialize_creds
 
 __author__ = ['Dr. Usman Kayani']
+
+session = requests.Session()
+session.headers.update({
+    'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:103.0) Gecko/20100101 Firefox/103.0',
+    'Accept': 'application/json',
+    'X-Tractive-Client' : '5728aa1fc9077f7c32000186'
+})
 
 def IFTTT_trigger(action: str, key: str) -> None:
     """
@@ -400,11 +407,7 @@ def _request_data(
     Returns:
         dict
     """
-    session = requests.Session()
-
-    if 'X-Tractive-Client' not in session.headers:
-        session.headers.update({'X-Tractive-Client' : '5728aa1fc9077f7c32000186'})
-    if access_token and 'Authoriziation' not in session.headers:
+    if 'Authoriziation' not in session.headers and access_token:
         session.headers.update({'Authorization': f'Bearer {access_token}'})
 
     if put:
