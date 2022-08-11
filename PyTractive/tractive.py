@@ -400,17 +400,20 @@ def _request_data(
     Returns:
         dict
     """
-    headers = {'X-Tractive-Client' : '5728aa1fc9077f7c32000186'}
-    if access_token:
-        headers.update({'Authorization': f'Bearer {access_token}'})
+    session = requests.Session()
+
+    if 'X-Tractive-Client' not in session.headers:
+        session.headers.update({'X-Tractive-Client' : '5728aa1fc9077f7c32000186'})
+    if access_token and 'Authoriziation' not in session.headers:
+        session.headers.update({'Authorization': f'Bearer {access_token}'})
 
     if put:
-        requests.put(url, headers=headers)
+        session.put(url)
         return 0
 
     if data:
-        response = requests.post(url, json=data, headers=headers)
+        response = session.post(url, json=data)
     else:
-        response = requests.get(url, headers=headers)
+        response = session.get(url)
 
     return json.loads(response.text)
