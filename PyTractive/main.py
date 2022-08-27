@@ -13,6 +13,8 @@ from .tractive import Tractive, IFTTT_trigger
 
 __author__ = ['Dr. Usman Kayani']
 
+Pet = Tractive(filename='login.conf')
+
 def front() -> tuple:
     """General tracker data shown when script executed."""
     (   battery_level, hw_status, network_timestamp, 
@@ -293,7 +295,7 @@ def _time_ago(t: int) -> str:
         return f'{int(t / 3600)} hours and {int(t/60) - int(int(t/60)/60)*60} minutes ago'
 
 if __name__ == '__main__':
-    Pet = Tractive(filename='login.conf')
+    
     battery_level, network_time_ago = front()
 
     parser = argparse.ArgumentParser(add_help=False)
