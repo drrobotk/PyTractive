@@ -9,6 +9,6 @@ setup(
     author_email='usman.kayaniphd@gmail.com',
     license='MIT',
     packages=['PyTractive'],
-    install_requires=['geopy>=2.0', 'folium>=0.1', 'pandas>=1.0', 'Pillow>=8.0', 'pycrypto>=3.14', 'cryptography>=3.4'],
+    install_requires=['geopy>=2.0', 'folium>=0.1', 'pandas>=1.0', 'Pillow>=8.0', 'pycrypto>=2.6', 'cryptography>=3.4'],
     include_package_data=True,
 )
