@@ -9,7 +9,7 @@ from geopy.distance import geodesic
 from geopy.geocoders import Nominatim
 from datetime import datetime
 
-from tractive import Tractive, IFTTT_trigger
+from .tractive import Tractive, IFTTT_trigger
 
 __author__ = ['Dr. Usman Kayani']
 
