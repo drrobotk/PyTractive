@@ -9,8 +9,16 @@ from geopy.distance import geodesic
 from geopy.geocoders import Nominatim
 from datetime import datetime
 
-from .tractive import Tractive, IFTTT_trigger
+try:
+    from .tractive import Tractive, IFTTT_trigger
+except:
+    from tractive import Tractive, IFTTT_trigger
 
+try:
+    from .user_env import user_environ
+except:
+    from user_env import user_environ
+    
 __author__ = ['Dr. Usman Kayani']
 
 Pet = Tractive(filename='login.conf')
@@ -119,6 +127,7 @@ def pet(switch) -> None:
 def trigger(distance_threshold: int) -> None:
     """Trigger notification for specified distance."""
     print(f'Trigger now started, you will recieve a notification and call when the distance from home is < {args.trigger}m')
+    ifttt_key = user_environ('IFTTT_KEY')
     latlong = Pet.get_GPS()[0]
     distance_home = int(geodesic(Pet.home, latlong).m)
     last_distance = distance_home
@@ -138,12 +147,12 @@ def trigger(distance_threshold: int) -> None:
             if distance_home < last_distance:
                 print(f'Closer....({distance_home}m)')
                 last_distance = distance_home
-                IFTTT_trigger(action='notification', key='enter_valid_key')
+                IFTTT_trigger(action='billy_notification', key=ifttt_key)
 
             # Pause for 10 seconds.
             time.sleep(10)
         print(f'Trigger ended. Distance from home is now: {distance_home}m.')
-        IFTTT_trigger(action='call', key='enter_valid_key')
+        IFTTT_trigger(action='billy_call', key=ifttt_key)
     except:
         GPS_timestamp = Pet.get_GPS()[1]
         GPS_time_ago = int(time.time()) - GPS_timestamp

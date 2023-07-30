@@ -19,7 +19,10 @@ from Crypto.Hash import SHA256
 from Crypto import Random
 from cryptography.fernet import Fernet
 
-from .user_env import user_environ, add_user_environment
+try:
+    from .user_env import user_environ, add_user_environment
+except:
+    from user_env import user_environ, add_user_environment
 
 app_name = 'TRACTIVE'
 

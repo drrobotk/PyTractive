@@ -12,9 +12,13 @@ from pathlib import Path
 
 import pandas as pd
 
-from .user_env import user_environ
-from .encryption import get_creds, initialize_creds
-
+try:
+    from .user_env import user_environ
+    from .encryption import get_creds, initialize_creds
+except:
+    from user_env import user_environ
+    from encryption import get_creds, initialize_creds
+    
 __author__ = ['Dr. Usman Kayani']
 
 session = requests.Session()
