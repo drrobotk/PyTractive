@@ -50,7 +50,7 @@ optional arguments:
 
 Tractive GPS Activity Monitor allows you to track your pet wherever it goes by showing the live location in the free Tractive GPS app on your smartphone or in your web browser, with location updates every 2-3 seconds in live mode. 
 
-<img src="https://camo.githubusercontent.com/3a1244425a0fd06e9318e74ec08e0c533b9281d01ca4195b47fe9b1071c8ab36/68747470733a2f2f63646e2d65712e6e69636573686f70732e636f6d2f75706c6f61642f696d6167652f70726f647563742f6c617267652f64656661756c742f74726163746976652d6770732d747261636b65722d696b6174692d666f722d636174732d312d70632d3537343734392d656e2e706e67" alt="tractive_tracker" width="500"/>
+<img src="https://github.com/drrobotk/PyTractive/assets/51001263/21e6d9a6-2b45-4838-9203-1cb45d8a3540" alt="tractive_tracker" width="300"/>
 
 The cat tracker records the daily activity of your kitty and shows you how active, playful or calm they are, and how much time they are sleeping, as well as being able to set activity goals for them. 
 
