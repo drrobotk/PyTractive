@@ -276,7 +276,7 @@ def switches(args):
 
     if isinstance(args.trigger, int):
         trigger(args.trigger)
-    elif args.public:
+    elif args.trigger:
         raise ValueError('Distance trigger must be an integer.')
 
     if args.gps:
