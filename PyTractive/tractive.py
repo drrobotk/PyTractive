@@ -171,11 +171,11 @@ class Tractive(object):
 
     def _rGPS(self, start, end) -> Dict:
         """Get raw GPS data between two time intervals."""
-        return (
-            _request_data(
-                f'{self.main_url}/tracker/{self.tracker_id}/positions?time_from={end}&time_to={start}&format=json_segments', 
-                self.access_token
-            )
+        params = {'time_from': end, 'time_to': start, 'format': 'json_segments'}
+        return _request_data(
+            f'{self.main_url}/tracker/{self.tracker_id}/positions', 
+            self.access_token, 
+            params=params
         )
 
     def all_gps_data(
@@ -393,6 +393,7 @@ def _request_data(
     url: str,
     access_token: Optional[str] = None,  
     data: Optional[Dict] = None,
+    params: Optional[Dict] = None,
     put: Optional[bool] = False, 
 ) -> Dict:
     """
@@ -405,6 +406,8 @@ def _request_data(
             The access token.
         data: dict
             The data to send.
+        params: dict
+            The URL parameters to send.
         put: bool
             Whether to use put or post.
     
@@ -415,12 +418,13 @@ def _request_data(
         session.headers.update({'Authorization': f'Bearer {access_token}'})
 
     if put:
-        session.put(url)
+        session.put(url, params=params)
         return 0
 
     if data:
-        response = session.post(url, json=data)
+        response = session.post(url, json=data, params=params)
     else:
-        response = session.get(url)
+        response = session.get(url, params=params)
 
     return json.loads(response.text)
+
