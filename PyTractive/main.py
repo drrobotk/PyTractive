@@ -21,7 +21,10 @@ except:
     
 __author__ = ['Dr. Usman Kayani']
 
-Pet = Tractive(filename='login.conf')
+script_dir = os.path.dirname(os.path.abspath(__file__))
+file = 'login.conf'
+
+Pet = Tractive(filename=os.path.join(script_dir, file))
 
 def front() -> tuple:
     """General tracker data shown when script executed."""

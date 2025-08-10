@@ -3,3 +3,8 @@
 PyTractive/map.html
 PyTractive/login.conf
 PyTractive/__pycache__
+access_token.txt
+*.ipynb
+PyTractive/login.conf
+PyTractive/login.conf
+*.conf

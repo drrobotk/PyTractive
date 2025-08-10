@@ -1,0 +1,13 @@
+{
+  "api_base_url": "https://graph.tractive.com/3",
+  "ifttt_base_url": "https://maker.ifttt.com/trigger",
+  "user_agent": "Mozilla/5.0 (compatible; PyTractive/1.0)",
+  "client_id": "5728aa1fc9077f7c32000186",
+  "request_timeout": 30,
+  "retry_attempts": 3,
+  "access_token_file": "access_token.txt",
+  "config_file": "pytractive_config.json",
+  "default_user_id": "5f525ea6d3278b5d10e1442c",
+  "max_gps_fallback_hours": 24,
+  "gps_retry_delay": 1
+}
