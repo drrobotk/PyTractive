@@ -70,10 +70,29 @@ class CredentialManager:
                 with open(login_conf, 'r', encoding='utf-8') as f:
                     lines = [line.strip() for line in f.readlines() if line.strip()]
                 
-                if len(lines) >= 4:
-                    return lines[0], lines[1], (float(lines[2]), float(lines[3]))
+                # Parse login.conf format: "key value" pairs
+                creds = {}
+                for line in lines:
+                    if ' ' in line:
+                        key, value = line.split(' ', 1)
+                        creds[key] = value
+                    else:
+                        # Fallback: assume it's just values (old format)
+                        if len(lines) >= 4:
+                            return lines[0], lines[1], (float(lines[2]), float(lines[3]))
+                        else:
+                            raise ConfigurationError("Incomplete login.conf file")
+                
+                # Extract values from key-value pairs
+                email = creds.get('email')
+                password = creds.get('password')
+                lat = creds.get('lat')
+                lon = creds.get('long')
+                
+                if all([email, password, lat, lon]):
+                    return email, password, (float(lat), float(lon))
                 else:
-                    raise ConfigurationError("Incomplete login.conf file")
+                    raise ConfigurationError("Incomplete credentials in login.conf file")
                     
             except (ValueError, IndexError) as e:
                 raise ConfigurationError(f"Invalid login.conf format: {e}")

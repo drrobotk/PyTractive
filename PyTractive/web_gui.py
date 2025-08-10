@@ -1117,13 +1117,15 @@ def create_web_handler(client):
     return handler
 
 
-def launch_web_gui(port=8080):
+def launch_web_gui(port=8080, client=None):
     """Launch the web-based GUI."""
     try:
         print("🌐 Starting PyTractive Web Interface...")
         
-        # Initialize client
-        client = TractiveClient()
+        # Initialize client if not provided
+        if client is None:
+            client = TractiveClient()
+        
         print(f"✓ Connected to tracker: {client.tracker_id}")
         
         # Create handler with client

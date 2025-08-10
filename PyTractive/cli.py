@@ -750,7 +750,8 @@ def web_gui(ctx, port: int):
     try:
         click.echo("🌐 Launching PyTractive Web Interface...")
         from .web_gui import launch_web_gui
-        launch_web_gui(port)
+        client = ctx.obj['client']
+        launch_web_gui(port, client)
     except Exception as e:
         click.echo(f"❌ Failed to launch web GUI: {e}", err=True)
 
